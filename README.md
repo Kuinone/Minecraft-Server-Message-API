@@ -1,16 +1,3 @@
----
-title: MessageAPI 文档
-
-published: 2026-07-12
-pinned: false
-description: 方便地使用 API 与 Minecraft 服务器交互
-tags: [API, Minecraft, 机器人, 服务器]
-category: 程序
-licenseName: "CC-0"
-author: Kuinone
-draft: false
----
-
 # Message API 模组使用文档
 
 **版本**: 1.0.1
