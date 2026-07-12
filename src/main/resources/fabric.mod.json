@@ -1,0 +1,40 @@
+{
+	"schemaVersion": 1,
+	"id": "message-api",
+	"version": "${version}",
+	"name": "Message API",
+	"description": "A simple API for sending messages, executing commands and getting server information.",
+	"authors": [
+		"Kuinone"
+	],
+	"contact": {
+		"homepage": "https://k.asxz.one/message-api",
+		"sources": "https://github.com/kuinome/minecraft-server-message-api"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/message-api/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"com.kuinone.messageapi.ApiServerMod"
+		],
+		"client": [
+			"com.kuinone.messageapi.MessageAPIClient"
+		]
+	},
+	"mixins": [
+		"message-api.mixins.json",
+		{
+			"config": "message-api.client.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=0.19.3",
+		"minecraft": "~1.21.1",
+		"java": ">=21"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}
