@@ -13,7 +13,7 @@ import java.sql.Timestamp;
 import java.util.UUID;
 
 public class ApiServerMod implements ModInitializer {
-	public static final Logger LOGGER = LoggerFactory.getLogger("ApiServer");
+	public static final Logger LOGGER = LoggerFactory.getLogger("MessageAPI");
 	public static MinecraftServer server;
 	public static ApiServerConfig config;
 	public static long startTime;
@@ -22,12 +22,17 @@ public class ApiServerMod implements ModInitializer {
 	@Override
 	public void onInitialize() {
 		// 加载或创建配置文件
-		File configFile = new File(FabricLoader.getInstance().getConfigDir().toFile(), "apiserver.json");
+		File configFile = new File(FabricLoader.getInstance().getConfigDir().toFile(), "messageapi.json");
 		config = ApiServerConfig.load(configFile);
 		if (config.apiKey == null || config.apiKey.isEmpty()) {
 			config.apiKey = UUID.randomUUID().toString();
 			config.save(configFile);
 			LOGGER.info("Generated new API key: {}", config.apiKey);
+		}
+		if (config.port < 1 || config.port > 65535 || config.apiKey.isEmpty()) {
+			config.port = 7789;
+			config.save(configFile);
+			LOGGER.info("Use default api port {}", config.port);
 		}
 
 		startTime = System.currentTimeMillis();
@@ -47,11 +52,11 @@ public class ApiServerMod implements ModInitializer {
 	}
 
 	private void startHttpServer() throws IOException {
-		httpServer = com.sun.net.httpserver.HttpServer.create(new InetSocketAddress(7789), 0);
+		httpServer = com.sun.net.httpserver.HttpServer.create(new InetSocketAddress(config.port), 0);
 		httpServer.createContext("/", new ApiHandler());
 		httpServer.setExecutor(null); // 使用默认线程池
 		httpServer.start();
-		LOGGER.info("API server listening on port 7789");
+		LOGGER.info("API server listening on port {}", config.port);
 	}
 
 	private void stopHttpServer() {

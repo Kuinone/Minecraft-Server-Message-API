@@ -7,6 +7,7 @@ import java.io.*;
 
 public class ApiServerConfig {
     public String apiKey;
+    public int port;
 
     public static ApiServerConfig load(File file) {
         if (file.exists()) {
